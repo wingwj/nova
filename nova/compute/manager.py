@@ -1003,6 +1003,10 @@ class ComputeManager(manager.SchedulerDependentManager):
                 except Exception:
                     LOG.exception(_('Failed to dealloc network for '
                                     'deleted instance'), instance=instance)
+        except exception.InvalidVolume as e:
+            msg = _('Failed to prepare BDM-volumes for spawn.')
+            LOG.debug(msg, instance=instance)
+            raise
         except exception.UnexpectedTaskStateError as e:
             exc_info = sys.exc_info()
             # Make sure the async call finishes
